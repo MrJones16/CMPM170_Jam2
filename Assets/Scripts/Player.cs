@@ -9,10 +9,10 @@ public class Player : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField]
-    private float transitionDuration = 2;
+    private float transitionDuration;
 
-    private bool divining = false;
     private bool eventing = true;
+    private bool divining = false;
 
     private void Start() {
         
@@ -42,8 +42,8 @@ public class Player : MonoBehaviour
 
     private IEnumerator SetDivination(bool toDivine)
     {
-        divining = false;
         eventing = false;
+        divining = false;
 
         float timeElapsed = 0;
         while(timeElapsed < transitionDuration)
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
         }
 
         // allow update to start
-        divining = toDivine;
         eventing = !toDivine;
+        divining = toDivine;
     }
 }
