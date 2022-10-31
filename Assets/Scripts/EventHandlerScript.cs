@@ -6,6 +6,7 @@ using System;
 public class EventHandlerScript : MonoBehaviour
 {
     List<Event> events;
+    public Countdown_Timer countdown_Timer;
     void Start()
     {
         //Initialize event list
@@ -49,6 +50,17 @@ public class EventHandlerScript : MonoBehaviour
                 1.0f   //Candle Burn Rate
             )
         );
+        
+    }
+    public void removeEvent(Event item){
+        events.Remove(item);
+    }
+    public Event getRandomEvent(){
+        if (events.Count == 0){
+            Debug.Log("There are no more events!");
+            return null;
+        }
+        return events[UnityEngine.Random.Range(0, events.Count)];
     }
 
     //Function to add an event with a variable amount of options. 
@@ -67,11 +79,13 @@ public class Event{
     //Members
     string name; // Name of the event
     string description; // Description of the event (what the text will be)
+    Countdown_Timer timer;
     List<Option> options;
     public Event(string name, string description){
         this.name = name;
         this.description = description;
         options = new List<Option>();
+        timer = GameObject.Find("Timer").GetComponent<Countdown_Timer>();
     }
     //Adds an option to the event.
     public void addOption(Option option){
@@ -80,25 +94,24 @@ public class Event{
 
     //Choose an option to execute by passing in the option itself.
     public void chooseOption(Option option){
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //NOT YET IMPLEMENTED : This requires me to know the functions to change the candle burn rate and overal time still.
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        timer.Change_Time(option.timerChange);
+        timer.Change_Tick_Rate(option.timerRate);
     }
 
     //choose an option to execute by passing in the option's index.
     public void chooseOption(int optionIndex){
         Option option = this.options[optionIndex];
-        //NOT YET IMPLEMENTED : This requires me to know the functions to change the candle burn rate and overal time still.
+        timer.Change_Time(option.timerChange);
+        timer.Change_Tick_Rate(option.timerRate);
     }
 }
 
 
 public struct Option{
-    string text; // What the option will say
-    string textAfterClick;
-    float timerChange;
-    float timerRate;
+    public string text; // What the option will say
+    public string textAfterClick;
+    public float timerChange;
+    public float timerRate;
 
     public Option(string text, string textAfterClick, float timerChange, float timerRate){
         this.text = text;
