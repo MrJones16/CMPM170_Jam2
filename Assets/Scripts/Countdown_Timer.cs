@@ -17,6 +17,10 @@ public class Countdown_Timer : MonoBehaviour
     void Update()
     {
         Current_Time -= Tick_Rate * Time.deltaTime; //to make time go down
+
+        if (Current_Time <= 0) {
+            Debug.Log("Game Over");
+        }
     }
 
     public void Change_Time(float new_Time) {
@@ -26,4 +30,5 @@ public class Countdown_Timer : MonoBehaviour
     public void Change_Tick_Rate(float new_Tick) { 
         Tick_Rate = new_Tick;
     }
+
 }
