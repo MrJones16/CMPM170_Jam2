@@ -5,11 +5,14 @@ using UnityEngine;
 public class Candle_Size : MonoBehaviour
 {
     public Countdown_Timer timer;
-    public float Max_Candle_Size = 1;
+
+    // Don't manually set this; set the Y scale to whatever the biggest candle size is
+    private float Max_Candle_Size;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Max_Candle_Size = this.transform.localScale.y;
     }
 
     // Update is called once per frame
