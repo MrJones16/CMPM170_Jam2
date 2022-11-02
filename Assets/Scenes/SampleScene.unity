@@ -6130,75 +6130,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caad987a73d854a089652895665c3110, type: 3}
---- !u!1001 &8181365325206476212
+--- !u!1001 &8001946254977969917
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 2127844373}
     m_Modifications:
-    - target: {fileID: 8181365325291530028, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
-        type: 3}
-      propertyPath: m_Name
-      value: Divination Circles
-      objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.02
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.01
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.14
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+    - target: {fileID: 8001946254892915812, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8001946254892915813, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
+        type: 3}
+      propertyPath: m_Name
+      value: Divination Circles
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4a1bacc0a75304f2ba451e88014dc8ce, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 80f9c2f18d0cb453d8656c5a87d76c59, type: 3}
 --- !u!1001 &8824495803723735826
 PrefabInstance:
   m_ObjectHideFlags: 0
