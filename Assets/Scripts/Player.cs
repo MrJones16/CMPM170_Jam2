@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     private float sidewaysWalkDistance;
     [SerializeField]
     private float walkTurnAngle;
+    [SerializeField]
+    private int foodAmount;
 
     // states
     private bool eventing = true;
@@ -139,5 +141,13 @@ public class Player : MonoBehaviour
         // allow update to start
         walking = false;
         eventing = true;
+    }
+
+    public void ChangeFood(int sustenance) {
+        foodAmount += sustenance;
+        if (foodAmount <= 0) {
+            //should end game
+            Debug.Log("GameOver");
+        }
     }
 }
