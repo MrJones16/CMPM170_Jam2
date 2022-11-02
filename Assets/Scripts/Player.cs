@@ -8,10 +8,20 @@ public class Player : MonoBehaviour
     private Camera camera;
     [SerializeField]
     private Transform candle;
+    [SerializeField]
+    private Transform topCircle;
+    [SerializeField]
+    private Transform leftCircle;
+    [SerializeField]
+    private Transform rightCircle;
+    [SerializeField]
+    private Transform hand;
 
     [Header("Settings")]
     [SerializeField]
     private float transitionDuration;
+    [SerializeField]
+    private float candleMoveDuration;
     [SerializeField]
     private float walkDuration;
     [SerializeField]
@@ -38,8 +48,6 @@ public class Player : MonoBehaviour
         } else if (walking) {
             WalkUpdate();
         }
-
-        // RotateCandle();
     }
 
     private void RotateCandle() {
@@ -67,8 +75,33 @@ public class Player : MonoBehaviour
     }
 
     private void DivinationUpdate() {
-        if (Input.GetButtonDown("Up")) {
+        Vector3 candlePos = candle.position;
+        
+        // ways to exit divination
+        if (Input.GetButtonDown("Up") && candlePos == topCircle.position) {
             StartCoroutine(SetDivination(false));
+            return;
+        }
+        if (Input.GetButtonDown("Down") && candlePos != topCircle.position) {
+            StartCoroutine(SetDivination(false));
+            return;
+        }
+
+        // move the candle
+        if (Input.GetButtonDown("Up") && candlePos != topCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, topCircle.position));
+            return;
+        }
+        if (Input.GetButtonDown("Left") && candlePos != leftCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, leftCircle.position));
+            return;
+        }
+        if (Input.GetButtonDown("Right") && candlePos != rightCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, rightCircle.position));
+            return;
+        }
+        if (Input.GetButtonDown("Down") && candlePos == topCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             return;
         }
     }
@@ -83,13 +116,20 @@ public class Player : MonoBehaviour
         eventing = false;
         divining = false;
 
+        // figure out where candle is going
+        Transform source = toDivine ? hand : candle;
+        Transform destination = toDivine ? topCircle : hand;
+
         float timeElapsed = 0;
         while(timeElapsed < transitionDuration)
         {
-            // change angle in an eased curve
+            // create eased transition
             float t = timeElapsed / transitionDuration;
-            t = t * t * (3f - 2f * t);
-            float newAngle = toDivine ? Mathf.Lerp(0, 30, t) : Mathf.Lerp(30, 0, t);
+            t = (Mathf.Sin(Mathf.PI*t-Mathf.PI/2)/2)+.5f;
+            
+            float newAngle = toDivine? Mathf.Lerp(0, 30, t) : Mathf.Lerp(30, 0, t);
+            candle.position = new Vector3(Mathf.Lerp(source.position.x, destination.position.x, t), Mathf.Lerp(source.position.y, destination.position.y, t), Mathf.Lerp(source.position.z, destination.position.z, t));
+            candle.eulerAngles = new Vector3(Mathf.Lerp(source.eulerAngles.x, destination.eulerAngles.x, t), Mathf.Lerp(source.eulerAngles.y, destination.eulerAngles.y, t), Mathf.Lerp(source.eulerAngles.z, destination.eulerAngles.z, t));
 
             Vector3 angle = camera.transform.eulerAngles;
             camera.transform.eulerAngles = new Vector3(newAngle, angle.y, angle.z);
@@ -97,6 +137,8 @@ public class Player : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
+
+        candle.position = destination.position;
 
         // allow update to start
         eventing = !toDivine;
@@ -139,5 +181,27 @@ public class Player : MonoBehaviour
         // allow update to start
         walking = false;
         eventing = true;
+    }
+
+    private IEnumerator MoveCandle(Vector3 source, Vector3 destination)
+    {
+        divining = false;
+
+        float timeElapsed = 0;
+        while(timeElapsed < candleMoveDuration)
+        {
+            // create eased transition
+            float t = timeElapsed / candleMoveDuration;
+            t = (Mathf.Sin(Mathf.PI*t-Mathf.PI/2)/2)+.5f;
+            
+            candle.position = new Vector3(Mathf.Lerp(source.x, destination.x, t), Mathf.Lerp(source.y, destination.y, t), Mathf.Lerp(source.z, destination.z, t));
+            
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        candle.position = destination;
+
+        divining = true;
     }
 }
