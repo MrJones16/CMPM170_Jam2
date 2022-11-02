@@ -1119,6 +1119,11 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 2061390004}
+    - target: {fileID: 2678603308264988949, guid: d4745115e2d4942f38b9b99b9474fd8a,
+        type: 3}
+      propertyPath: divinationScalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2678603308264988954, guid: d4745115e2d4942f38b9b99b9474fd8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -1127,7 +1132,7 @@ PrefabInstance:
     - target: {fileID: 2678603308264988954, guid: d4745115e2d4942f38b9b99b9474fd8a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.35
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2678603308264988954, guid: d4745115e2d4942f38b9b99b9474fd8a,
         type: 3}
@@ -1137,7 +1142,7 @@ PrefabInstance:
     - target: {fileID: 2678603308264988954, guid: d4745115e2d4942f38b9b99b9474fd8a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.6
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 2678603308264988954, guid: d4745115e2d4942f38b9b99b9474fd8a,
         type: 3}

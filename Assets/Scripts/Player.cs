@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Camera camera;
     [SerializeField]
-    private Transform candle;
+    private Candle_Size candle;
     [SerializeField]
     private Transform topCircle;
     [SerializeField]
@@ -51,10 +51,10 @@ public class Player : MonoBehaviour
     }
 
     private void RotateCandle() {
-        candle.localPosition = Vector3.forward; // Position the picked up object facing the same direction as the player
-        candle.localRotation = Quaternion.Euler(Vector3.forward); // Not exactly sure what this does but if I leave it out it becomes random
-        candle.Translate(0.5f,1.0f,0); // offset the position
-        candle.localRotation = Quaternion.Euler(90,0,90); // offset the rotation
+        candle.transform.localPosition = Vector3.forward; // Position the picked up object facing the same direction as the player
+        candle.transform.localRotation = Quaternion.Euler(Vector3.forward); // Not exactly sure what this does but if I leave it out it becomes random
+        candle.transform.Translate(0.5f,1.0f,0); // offset the position
+        candle.transform.localRotation = Quaternion.Euler(90,0,90); // offset the rotation
     }
 
     private void EventUpdate() {
@@ -101,14 +101,13 @@ public class Player : MonoBehaviour
             
             if (toDivine) {
                 newAngle = Mathf.Lerp(0, 30, t);
-                candle.position = new Vector3(Mathf.Lerp(hand.position.x, topCircle.position.x, t), Mathf.Lerp(hand.position.y, topCircle.position.y, t), Mathf.Lerp(hand.position.z, topCircle.position.z, t));
-                candle.eulerAngles = new Vector3(Mathf.Lerp(hand.eulerAngles.x, topCircle.eulerAngles.x, t), Mathf.Lerp(hand.eulerAngles.y, topCircle.eulerAngles.y, t), Mathf.Lerp(hand.eulerAngles.z, topCircle.eulerAngles.z, t));
-                // candle.localScale = new Vector3()
+                candle.transform.position = new Vector3(Mathf.Lerp(hand.position.x, topCircle.position.x, t), Mathf.Lerp(hand.position.y, topCircle.position.y, t), Mathf.Lerp(hand.position.z, topCircle.position.z, t));
+                candle.transform.eulerAngles = new Vector3(Mathf.Lerp(hand.eulerAngles.x, topCircle.eulerAngles.x, t), Mathf.Lerp(hand.eulerAngles.y, topCircle.eulerAngles.y, t), Mathf.Lerp(hand.eulerAngles.z, topCircle.eulerAngles.z, t));
             }
             else {
                 newAngle = Mathf.Lerp(30, 0, t);
-                candle.position = new Vector3(Mathf.Lerp(topCircle.position.x, hand.position.x, t), Mathf.Lerp(topCircle.position.y, hand.position.y, t), Mathf.Lerp(topCircle.position.z, hand.position.z, t));
-                candle.eulerAngles = new Vector3(Mathf.Lerp(topCircle.eulerAngles.x, hand.eulerAngles.x, t), Mathf.Lerp(topCircle.eulerAngles.y, hand.eulerAngles.y, t), Mathf.Lerp(topCircle.eulerAngles.z, hand.eulerAngles.z, t));
+                candle.transform.position = new Vector3(Mathf.Lerp(topCircle.position.x, hand.position.x, t), Mathf.Lerp(topCircle.position.y, hand.position.y, t), Mathf.Lerp(topCircle.position.z, hand.position.z, t));
+                candle.transform.eulerAngles = new Vector3(Mathf.Lerp(topCircle.eulerAngles.x, hand.eulerAngles.x, t), Mathf.Lerp(topCircle.eulerAngles.y, hand.eulerAngles.y, t), Mathf.Lerp(topCircle.eulerAngles.z, hand.eulerAngles.z, t));
             }
 
             Vector3 angle = camera.transform.eulerAngles;
