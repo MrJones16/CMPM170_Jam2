@@ -94,10 +94,22 @@ public class Player : MonoBehaviour
         float timeElapsed = 0;
         while(timeElapsed < transitionDuration)
         {
-            // change angle in an eased curve
+            // create eased transition
             float t = timeElapsed / transitionDuration;
-            t = t * t * (3f - 2f * t);
-            float newAngle = toDivine ? Mathf.Lerp(0, 30, t) : Mathf.Lerp(30, 0, t);
+            t = (Mathf.Sin(Mathf.PI*t-Mathf.PI/2)/2)+.5f;
+            float newAngle;
+            
+            if (toDivine) {
+                newAngle = Mathf.Lerp(0, 30, t);
+                candle.position = new Vector3(Mathf.Lerp(hand.position.x, topCircle.position.x, t), Mathf.Lerp(hand.position.y, topCircle.position.y, t), Mathf.Lerp(hand.position.z, topCircle.position.z, t));
+                candle.eulerAngles = new Vector3(Mathf.Lerp(hand.eulerAngles.x, topCircle.eulerAngles.x, t), Mathf.Lerp(hand.eulerAngles.y, topCircle.eulerAngles.y, t), Mathf.Lerp(hand.eulerAngles.z, topCircle.eulerAngles.z, t));
+                // candle.localScale = new Vector3()
+            }
+            else {
+                newAngle = Mathf.Lerp(30, 0, t);
+                candle.position = new Vector3(Mathf.Lerp(topCircle.position.x, hand.position.x, t), Mathf.Lerp(topCircle.position.y, hand.position.y, t), Mathf.Lerp(topCircle.position.z, hand.position.z, t));
+                candle.eulerAngles = new Vector3(Mathf.Lerp(topCircle.eulerAngles.x, hand.eulerAngles.x, t), Mathf.Lerp(topCircle.eulerAngles.y, hand.eulerAngles.y, t), Mathf.Lerp(topCircle.eulerAngles.z, hand.eulerAngles.z, t));
+            }
 
             Vector3 angle = camera.transform.eulerAngles;
             camera.transform.eulerAngles = new Vector3(newAngle, angle.y, angle.z);
@@ -107,8 +119,7 @@ public class Player : MonoBehaviour
         }
 
         // place the candle on the ground or in the hand
-        candle.position = toDivine ? topCircle.position : hand.position;
-        candle.rotation = toDivine ? topCircle.rotation : hand.rotation;
+        
 
         // allow update to start
         eventing = !toDivine;
