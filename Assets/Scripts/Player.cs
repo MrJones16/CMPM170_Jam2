@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Camera camera;
     [SerializeField]
-    private Candle_Size candle;
+    private Transform candle;
     [SerializeField]
     private Transform topCircle;
     [SerializeField]
@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [Header("Settings")]
     [SerializeField]
     private float transitionDuration;
+    [SerializeField]
+    private float candleMoveDuration;
     [SerializeField]
     private float walkDuration;
     [SerializeField]
@@ -46,15 +48,13 @@ public class Player : MonoBehaviour
         } else if (walking) {
             WalkUpdate();
         }
-
-        // RotateCandle();
     }
 
     private void RotateCandle() {
-        candle.transform.localPosition = Vector3.forward; // Position the picked up object facing the same direction as the player
-        candle.transform.localRotation = Quaternion.Euler(Vector3.forward); // Not exactly sure what this does but if I leave it out it becomes random
-        candle.transform.Translate(0.5f,1.0f,0); // offset the position
-        candle.transform.localRotation = Quaternion.Euler(90,0,90); // offset the rotation
+        candle.localPosition = Vector3.forward; // Position the picked up object facing the same direction as the player
+        candle.localRotation = Quaternion.Euler(Vector3.forward); // Not exactly sure what this does but if I leave it out it becomes random
+        candle.Translate(0.5f,1.0f,0); // offset the position
+        candle.localRotation = Quaternion.Euler(90,0,90); // offset the rotation
     }
 
     private void EventUpdate() {
@@ -75,8 +75,33 @@ public class Player : MonoBehaviour
     }
 
     private void DivinationUpdate() {
-        if (Input.GetButtonDown("Up")) {
+        Vector3 candlePos = candle.position;
+        
+        // ways to exit divination
+        if (Input.GetButtonDown("Up") && candlePos == topCircle.position) {
             StartCoroutine(SetDivination(false));
+            return;
+        }
+        if (Input.GetButtonDown("Down") && candlePos != topCircle.position) {
+            StartCoroutine(SetDivination(false));
+            return;
+        }
+
+        // move the candle
+        if (Input.GetButtonDown("Up") && candlePos != topCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, topCircle.position));
+            return;
+        }
+        if (Input.GetButtonDown("Left") && candlePos != leftCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, leftCircle.position));
+            return;
+        }
+        if (Input.GetButtonDown("Right") && candlePos != rightCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, rightCircle.position));
+            return;
+        }
+        if (Input.GetButtonDown("Down") && candlePos == topCircle.position) {
+            StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             return;
         }
     }
@@ -91,24 +116,20 @@ public class Player : MonoBehaviour
         eventing = false;
         divining = false;
 
+        // figure out where candle is going
+        Transform source = toDivine ? hand : candle;
+        Transform destination = toDivine ? topCircle : hand;
+
         float timeElapsed = 0;
         while(timeElapsed < transitionDuration)
         {
             // create eased transition
             float t = timeElapsed / transitionDuration;
             t = (Mathf.Sin(Mathf.PI*t-Mathf.PI/2)/2)+.5f;
-            float newAngle;
             
-            if (toDivine) {
-                newAngle = Mathf.Lerp(0, 30, t);
-                candle.transform.position = new Vector3(Mathf.Lerp(hand.position.x, topCircle.position.x, t), Mathf.Lerp(hand.position.y, topCircle.position.y, t), Mathf.Lerp(hand.position.z, topCircle.position.z, t));
-                candle.transform.eulerAngles = new Vector3(Mathf.Lerp(hand.eulerAngles.x, topCircle.eulerAngles.x, t), Mathf.Lerp(hand.eulerAngles.y, topCircle.eulerAngles.y, t), Mathf.Lerp(hand.eulerAngles.z, topCircle.eulerAngles.z, t));
-            }
-            else {
-                newAngle = Mathf.Lerp(30, 0, t);
-                candle.transform.position = new Vector3(Mathf.Lerp(topCircle.position.x, hand.position.x, t), Mathf.Lerp(topCircle.position.y, hand.position.y, t), Mathf.Lerp(topCircle.position.z, hand.position.z, t));
-                candle.transform.eulerAngles = new Vector3(Mathf.Lerp(topCircle.eulerAngles.x, hand.eulerAngles.x, t), Mathf.Lerp(topCircle.eulerAngles.y, hand.eulerAngles.y, t), Mathf.Lerp(topCircle.eulerAngles.z, hand.eulerAngles.z, t));
-            }
+            float newAngle = toDivine? Mathf.Lerp(0, 30, t) : Mathf.Lerp(30, 0, t);
+            candle.position = new Vector3(Mathf.Lerp(source.position.x, destination.position.x, t), Mathf.Lerp(source.position.y, destination.position.y, t), Mathf.Lerp(source.position.z, destination.position.z, t));
+            candle.eulerAngles = new Vector3(Mathf.Lerp(source.eulerAngles.x, destination.eulerAngles.x, t), Mathf.Lerp(source.eulerAngles.y, destination.eulerAngles.y, t), Mathf.Lerp(source.eulerAngles.z, destination.eulerAngles.z, t));
 
             Vector3 angle = camera.transform.eulerAngles;
             camera.transform.eulerAngles = new Vector3(newAngle, angle.y, angle.z);
@@ -117,8 +138,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        // place the candle on the ground or in the hand
-        
+        candle.position = destination.position;
 
         // allow update to start
         eventing = !toDivine;
@@ -161,5 +181,27 @@ public class Player : MonoBehaviour
         // allow update to start
         walking = false;
         eventing = true;
+    }
+
+    private IEnumerator MoveCandle(Vector3 source, Vector3 destination)
+    {
+        divining = false;
+
+        float timeElapsed = 0;
+        while(timeElapsed < candleMoveDuration)
+        {
+            // create eased transition
+            float t = timeElapsed / candleMoveDuration;
+            t = (Mathf.Sin(Mathf.PI*t-Mathf.PI/2)/2)+.5f;
+            
+            candle.position = new Vector3(Mathf.Lerp(source.x, destination.x, t), Mathf.Lerp(source.y, destination.y, t), Mathf.Lerp(source.z, destination.z, t));
+            
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        candle.position = destination;
+
+        divining = true;
     }
 }
