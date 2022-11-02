@@ -6197,6 +6197,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Divination Circles
       objectReference: {fileID: 0}
+    - target: {fileID: 8001946254892915815, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 36a22980a81ca4743a1beed9bbdae5a7,
+        type: 3}
+    - target: {fileID: 8001946255588215787, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001946255588215787, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80f9c2f18d0cb453d8656c5a87d76c59, type: 3}
 --- !u!1001 &8824495803723735826
