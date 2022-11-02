@@ -5361,6 +5361,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6e9be5085e7a1489ac6b7f3c4b42fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2127844373 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2988091781991713604, guid: ab32f8bb44d754da799f91e859cc6c6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2988091780507512220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &157327296340682185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6124,6 +6130,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caad987a73d854a089652895665c3110, type: 3}
+--- !u!1001 &8181365325206476212
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2127844373}
+    m_Modifications:
+    - target: {fileID: 8181365325291530028, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_Name
+      value: Divination Circles
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181365325291530029, guid: 4a1bacc0a75304f2ba451e88014dc8ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a1bacc0a75304f2ba451e88014dc8ce, type: 3}
 --- !u!1001 &8824495803723735826
 PrefabInstance:
   m_ObjectHideFlags: 0
