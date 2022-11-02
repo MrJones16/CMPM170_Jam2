@@ -8,6 +8,14 @@ public class Player : MonoBehaviour
     private Camera camera;
     [SerializeField]
     private Transform candle;
+    [SerializeField]
+    private Transform topCircle;
+    [SerializeField]
+    private Transform leftCircle;
+    [SerializeField]
+    private Transform rightCircle;
+    [SerializeField]
+    private Transform hand;
 
     [Header("Settings")]
     [SerializeField]
@@ -97,6 +105,10 @@ public class Player : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
+
+        // place the candle on the ground or in the hand
+        candle.position = toDivine ? topCircle.position : hand.position;
+        candle.rotation = toDivine ? topCircle.rotation : hand.rotation;
 
         // allow update to start
         eventing = !toDivine;
