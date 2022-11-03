@@ -26,13 +26,17 @@ public class EventHandlerScript : MonoBehaviour
                 bad: false,                             // OPTIONAL: Tells the candle to show a bad omen or not. DEFAULT=false.
                 timerChange: 0f,                        // OPTIONAL: Adds or subtracts remaining candle time. DEFAULT=0.
                 timerRate: 1f,                          // OPTIONAL: Sets how fast the candle will burn. DEFAULT=1.
-                foodChange: 0,                          // OPTIONAL: This changes the player's food. DEFAULT=0.
-                progressChange: 0                       // OPTIONAL: This changes the player's food. DEFAULT=0.
+                foodChange: -1,                         // OPTIONAL: This changes the player's food. DEFAULT=-1.
+                progressChange: 0                       // OPTIONAL: This changes the player's progress towards escape. DEFAULT=0.
             ), // At this point you can add as many options as you want. In this example, I will add a second option
             new Option(
                 text: "optionText",
-                textAfterClick: "optionTextAfterClick"
-                // This option gives the same exact result as the first one, ommitting default parameters.
+                textAfterClick: "optionTextAfterClick",
+                bad: false,
+                timerChange: 0f,
+                timerRate: 1f,
+                foodChange: -1,
+                progressChange: 0
             )
         );
         */
@@ -43,7 +47,7 @@ public class EventHandlerScript : MonoBehaviour
             ),
             new Option(
                 text: "I took the path with animal tracks.",
-                textAfterClick: "My candle seemed to sense danger, and began to burn faster. I have to get out of here before that animal tracks *me*.",
+                textAfterClick: "My candle seemed to sense danger, and began to burn faster. I have to get out of here before that animal tracks *me*!.",
                 bad: true,
                 timerRate: 2f,
                 progressChange: 5
@@ -59,7 +63,70 @@ public class EventHandlerScript : MonoBehaviour
                 textAfterClick: "The \"shortcut\" took longer than expected, but we found berries along the way.",
                 timerChange: -10.0f,
                 foodChange: 5,
+                progressChange: 10
+            )
+        );
+
+        addEvent(
+            new Event("The Mysterious Stranger",
+                      "I came across a stranger in the woods. He offered to be my guide, in exchange for some food."
+            ),
+            new Option(
+                text: "I didn't trust anyone. Not anymore.",
+                textAfterClick: "I politely declined his offer, hoping he wasn't the type to hold a grudge...",
+                bad: true
+            ),
+            new Option(
+                text: "I decided to accept his help, resolving to keep my eye on him.",
+                textAfterClick: "He happily devoured my food, taking his sweet time as he did so. I hoped his guidance would prove useful.",
+                bad: false,
+                timerChange: -10f,
+                foodChange: -3,
+                gainCompanion: true
+            )
+        );
+
+        addEvent(
+            new Event("The Sound of a Memory",
+                      "At a crossing, I heard a faint bell in the distance. It stirred a memory within me, one I'd tried to forget."
+            ),
+            new Option(
+                text: "I ignored the memory. It couldn't lead to anything good.",
+                textAfterClick: "After what felt like hours of wandering, to my relief, I stopped hearing the bell. I turned around, more lost than ever.",
+                bad: true,
+                timerChange: 0f,
+                timerRate: 1f,
+                progressChange: -5
+            ),
+            new Option(
+                text: "I followed the bell. I had to find out what it was doing out here.",
+                textAfterClick: "Though I forged ahead towards the sound, I didn't hear the bell again. Still, I felt confident that this was the right direction.",
+                progressChange: 10
+            )
+        );
+
+        addEvent(
+            new Event("The Toad's Warning",
+                      "At the next crossroads, what I thought was a ribbit turned out to be a large, yellow toad, croakily warning me of danger in the clearing off to the left."
+            ),
+            new Option(
+                text: "I shook myself. Listening to a talking toad? I must be going mad.",
+                textAfterClick: "I ignored the toad's warning. To my surprise, I stumbled across the toad's breeding ground, an area it must've been trying to protect. The moment of peace seemed to make my candle burn slower.",
+                timerRate: .1f,
+                foodChange: 0,
+                progressChange: 10
+            ),
+            new Option(
+                text: "Whatever that toad's deal was, I wasn't going to mess with it.",
+                textAfterClick: "Shrugging my shoulders, I obeyed and took the rightward path. Who knew what dangers the other path held, but this one seemed safe enough.",
                 progressChange: 5
+            ),
+            new Option(
+                text: "My companion looked skeptical, advising that the leftward path was faster.",
+                textAfterClick: "To our surprise, we stumbled across the toad's breeding ground, an area it must've been trying to protect. The moment of peace seemed to make my candle burn slower.",
+                timerRate: .1f,
+                foodChange: 0,
+                progressChange: 10
             )
         );
         
@@ -136,7 +203,7 @@ public struct Option{
     public int progressChange;
     public bool gainCompanion;
 
-    public Option(string text, string textAfterClick, bool bad=false, float timerChange=0, float timerRate=1, int foodChange=0, int progressChange=0, bool gainCompanion=false){
+    public Option(string text, string textAfterClick, bool bad=false, float timerChange=0, float timerRate=1, int foodChange=-1, int progressChange=0, bool gainCompanion=false){
         this.text = text;
         this.textAfterClick = textAfterClick;
         this.bad = bad;
