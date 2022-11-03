@@ -15,50 +15,49 @@ public class EventHandlerScript : MonoBehaviour
         //(Here will be where we hard-code all events we want.)
         //
         //Example Event: (feel free to copy paste and change values)
-        // addEvent(
-        //     new Event("example_name",      //Name of the Event
-        //               "example_description"//Event description
-        //     ),
-        //     new Option(
-        //         "optionText",           //This is the text that the option will say
-        //         "optionTextAfterClick", //This will be what is said when the option is chosen
-        //         0.0f,                   //This is the change on the timer. Positive values add time, negative values subtract time.
-        //         1.0f,                   //This is the value of how fast the candle will burn. 1 second is the default.
-        //         false
-        //     ), // At this point you can add as many options as you want. In this example, I will add a second option
-        //     new Option(
-        //         "optionText",           //Option Text
-        //         "optionTextAfterClick", //Text After choosing
-        //         0.0f,                   //Timer Change
-        //         1.0f,                   //Candle Burn Rate
-        //         true
-        //     )
-        // );
+        addEvent(
+            new Event("example_name",      // Name of the Event
+                      "example_description"// Event description
+            ),
+            new Option(
+                text: "optionText",                     // This is the text that the option will say
+                textAfterClick: "optionTextAfterClick", // This will be what is said when the option is chosen
+                bad: false,                             // OPTIONAL: Tells the candle to show a bad omen or not. DEFAULT=false.
+                timerChange: 0f,                        // OPTIONAL: Adds or subtracts remaining candle time. DEFAULT=0.
+                timerRate: 1f,                          // OPTIONAL: Sets how fast the candle will burn. DEFAULT=1.
+                foodChange: 0,                          // OPTIONAL: This changes the player's food. DEFAULT=0.
+                progressChange: 0                       // OPTIONAL: This changes the player's food. DEFAULT=0.
+            ), // At this point you can add as many options as you want. In this example, I will add a second option
+            new Option(
+                text: "optionText",
+                textAfterClick: "optionTextAfterClick"
+                // This option gives the same exact result as the first one, ommitting default parameters.
+            )
+        );
         //Here is what a more legitimate event would look like:
         addEvent(
             new Event("Animal Tracks",
-                      "You see animal tracks on the left path which could lead to food, but the right path seems like it will lead you out of the forest faster"
+                      "I saw animal tracks on the left path, which could lead to food. But the right path seemed like it would lead me out of the forest faster."
             ),
             new Option(
-                "Take the path with animal tracks",//Option Text
-                "I chose to follow the animal tracks, even though it could be dangerous", //Text After choosing
-                0f,   //Timer change
-                2.0f, //Candle Burn Rate (I doubled the burn rate to simulate the danger of the animal)
-                true
+                text: "I took the path with animal tracks.",
+                textAfterClick: "My candle seemed to sense danger, and began to burn faster. I have to get out of here before that animal tracks *me*.",
+                bad: true,
+                timerRate: 2f,
+                progressChange: 5
             ), 
             new Option(
-                "Take the shorter path",           //Option Text
-                "I chose to follow my gut with the shorter path, and found some wax on the side of the path", //Text After choosing
-                30.0f, //Timer Change (I added 30 seconds to the candle since they found wax)
-                1.0f,  //Candle Burn Rate
-                false
+                text: "I took the shorter path.",
+                textAfterClick: "I chose to follow my gut with the shorter path, and found some wax to add to my candle along the way.",
+                timerChange: 30.0f,
+                progressChange: 10
             ),
             new Option(
-                "Listen to your companion",           //Option Text
-                "I chose to follow my companion's advice and forge a path through the brush, ignoring both instincts", //Text After choosing
-                -10.0f, //Timer Change (I added 30 seconds to the candle since they found wax)
-                1.0f,  //Candle Burn Rate
-                true
+                text: "I listened to my companion, who suggested a shortcut through the trees ahead.",           
+                textAfterClick: "The \"shortcut\" took longer than expected, but we found berries along the way.",
+                timerChange: -10.0f,
+                foodChange: 5,
+                progressChange: 5
             )
         );
         
@@ -94,11 +93,13 @@ public class Event{
     public string description; // Description of the event (what the text will be)
     Countdown_Timer timer;
     public List<Option> options;
+    private Player player;
     public Event(string name, string description){
         this.name = name;
         this.description = description;
         options = new List<Option>();
         timer = GameObject.Find("Timer").GetComponent<Countdown_Timer>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
     //Adds an option to the event.
     public void addOption(Option option){
@@ -107,16 +108,18 @@ public class Event{
 
     //Choose an option to execute by passing in the option itself.
     public void chooseOption(Option option){
+        Debug.Log(option.textAfterClick);
         timer.Change_Time(option.timerChange);
         timer.Change_Tick_Rate(option.timerRate);
+        player.ChangeFood(option.foodChange);
+        player.ChangeProgress(option.progressChange);
+        if (option.gainCompanion) player.GainCompanion();
     }
 
     //choose an option to execute by passing in the option's index.
     public void chooseOption(int optionIndex){
         Option option = this.options[optionIndex];
-        Debug.Log(option.textAfterClick);
-        timer.Change_Time(option.timerChange);
-        timer.Change_Tick_Rate(option.timerRate);
+        chooseOption(option);
     }
 }
 
@@ -124,15 +127,21 @@ public class Event{
 public struct Option{
     public string text; // What the option will say
     public string textAfterClick;
+    public bool bad;
     public float timerChange;
     public float timerRate;
-    public bool bad;
+    public int foodChange;
+    public int progressChange;
+    public bool gainCompanion;
 
-    public Option(string text, string textAfterClick, float timerChange, float timerRate, bool bad){
+    public Option(string text, string textAfterClick, bool bad=false, float timerChange=0, float timerRate=1, int foodChange=0, int progressChange=0, bool gainCompanion=false){
         this.text = text;
         this.textAfterClick = textAfterClick;
+        this.bad = bad;
         this.timerChange = timerChange;
         this.timerRate = timerRate;
-        this.bad = bad;
+        this.foodChange = foodChange;
+        this.progressChange = progressChange;
+        this.gainCompanion = gainCompanion;
     }
 }
