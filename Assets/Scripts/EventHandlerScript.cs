@@ -15,6 +15,7 @@ public class EventHandlerScript : MonoBehaviour
         //(Here will be where we hard-code all events we want.)
         //
         //Example Event: (feel free to copy paste and change values)
+        /*
         addEvent(
             new Event("example_name",      // Name of the Event
                       "example_description"// Event description
@@ -34,6 +35,7 @@ public class EventHandlerScript : MonoBehaviour
                 // This option gives the same exact result as the first one, ommitting default parameters.
             )
         );
+        */
         //Here is what a more legitimate event would look like:
         addEvent(
             new Event("Animal Tracks",
