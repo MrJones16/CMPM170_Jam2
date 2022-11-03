@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Camera camera;
     [SerializeField]
+    private ParticleSystem smoke;
+    [SerializeField]
     private Transform candle;
     [SerializeField]
     private Transform topCircle;
@@ -94,15 +96,33 @@ public class Player : MonoBehaviour
         }
         if (Input.GetButtonDown("Left") && candlePos != leftCircle.position) {
             StartCoroutine(MoveCandle(candlePos, leftCircle.position));
+            // let's say left is always a bad omen for now
+            BadOmen(true);
+            // once the event system is setup, it'll look something like this:
+            // BadOmen(currentEvent.options[0].bad);
             return;
         }
         if (Input.GetButtonDown("Right") && candlePos != rightCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
+            // let's say right is always a good omen for now
+            BadOmen(false);
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos == topCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             return;
+        }
+    }
+
+    private void BadOmen(bool bad) {
+        ParticleSystem.ForceOverLifetimeModule force = smoke.forceOverLifetime;
+        ParticleSystem.VelocityOverLifetimeModule velocity = smoke.velocityOverLifetime;
+        if (bad) {
+            force.enabled = true;
+            velocity.yMultiplier = 0.4f;
+        } else {
+            force.enabled = false;
+            velocity.yMultiplier = 0.2f;
         }
     }
 
