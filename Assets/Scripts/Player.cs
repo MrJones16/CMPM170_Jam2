@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -20,8 +21,9 @@ public class Player : MonoBehaviour
     private float sidewaysWalkDistance;
     [SerializeField]
     private float walkTurnAngle;
+    [Header("Sustenance")]
     [SerializeField]
-    private int foodAmount;
+    public int foodAmount;
 
     // states
     private bool eventing = true;
