@@ -664,6 +664,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2678603308369600429}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &1093970680 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8001946254892915815, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
+    type: 3}
+  m_PrefabInstance: {fileID: 8001946254977969917}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1173753187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -888,6 +894,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caad987a73d854a089652895665c3110, type: 3}
+--- !u!114 &1938086320 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2987686171502389697, guid: 40008f6053458684ab9bc2a88dbb5fee,
+    type: 3}
+  m_PrefabInstance: {fileID: 302124657323195857}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e41ef95ac1f10044c8ca59017a501573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2061390004 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -9161087177708291836, guid: c4330396e0ddee34e9a22d7376558add,
@@ -1376,6 +1394,11 @@ PrefabInstance:
       objectReference: {fileID: 987528887}
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
+      propertyPath: circles
+      value: 
+      objectReference: {fileID: 1093970680}
+    - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
       propertyPath: topCircle
       value: 
       objectReference: {fileID: 1352284469}
@@ -1386,9 +1409,26 @@ PrefabInstance:
       objectReference: {fileID: 731964694}
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
+      propertyPath: twoCircles
+      value: 
+      objectReference: {fileID: 21300000, guid: 8ffb639c898694ee2b8001424c16e0bd,
+        type: 3}
+    - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
       propertyPath: rightCircle
       value: 
       objectReference: {fileID: 470328422}
+    - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
+      propertyPath: eventHandler
+      value: 
+      objectReference: {fileID: 1938086320}
+    - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
+      propertyPath: threeCircles
+      value: 
+      objectReference: {fileID: 21300000, guid: 36a22980a81ca4743a1beed9bbdae5a7,
+        type: 3}
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
       propertyPath: walkDuration

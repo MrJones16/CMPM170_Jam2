@@ -9,6 +9,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private ParticleSystem smoke;
     [SerializeField]
+    private EventHandlerScript eventHandler;
+    [SerializeField]
+    private SpriteRenderer circles;
+    [SerializeField]
+    private Sprite twoCircles;
+    [SerializeField]
+    private Sprite threeCircles;
+    [SerializeField]
     private Transform candle;
     [SerializeField]
     private Transform topCircle;
@@ -38,6 +46,8 @@ public class Player : MonoBehaviour
     private bool divining = false;
     private bool walking = false;
 
+    private Event currentEvent;
+
     private void Start() {
         
     }
@@ -53,18 +63,50 @@ public class Player : MonoBehaviour
     }
 
     private void EventUpdate() {
-        if (Input.GetButtonDown("Down")) {
-            StartCoroutine(SetDivination(true));
-            return;
+        // get an event
+        if (currentEvent == null) {
+            currentEvent = eventHandler.getRandomEvent();
+            // set 2 or 3 circles depending on # of choices (later: and whether you have a companion)
+            circles.sprite = currentEvent.options.Count == 2 ? twoCircles : threeCircles;
+
+            // display event in console for now
+            Debug.Log(currentEvent.name);
+            Debug.Log(currentEvent.description);
         }
 
-        if (Input.GetButtonDown("Right")) {
-            StartCoroutine(Walk(true));
+        if (Input.GetButtonDown("Down")) {
+            StartCoroutine(SetDivination(true));
+            BadOmen(currentEvent.options[1].bad);
             return;
         }
 
         if (Input.GetButtonDown("Left")) {
             StartCoroutine(Walk(false));
+            // trigger option 0 of current event
+            currentEvent.chooseOption(0);
+            // then disable current event
+            currentEvent = null;
+            return;
+        }
+
+        if (Input.GetButtonDown("Right")) {
+            StartCoroutine(Walk(true));
+            // trigger option 1 of current event
+            currentEvent.chooseOption(1);
+            // then disable current event
+            currentEvent = null;
+            return;
+        }
+
+        if (Input.GetButtonDown("Up")) {
+            StartCoroutine(Walk(true));
+            // if option 2 exists, 
+            if (currentEvent.options.Count >= 3) {
+                // trigger option 2 of current event
+                currentEvent.chooseOption(2);
+                // then disable current event
+                currentEvent = null;
+            }
             return;
         }
     }
@@ -73,36 +115,38 @@ public class Player : MonoBehaviour
         Vector3 candlePos = candle.position;
         
         // ways to exit divination
-        if (Input.GetButtonDown("Up") && candlePos == topCircle.position) {
+        if (Input.GetButtonDown("Up") && (currentEvent.options.Count < 3 || candlePos == topCircle.position)) {
             StartCoroutine(SetDivination(false));
+            BadOmen(false);
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos != topCircle.position) {
             StartCoroutine(SetDivination(false));
+            BadOmen(false);
             return;
         }
 
         // move the candle
         if (Input.GetButtonDown("Up") && candlePos != topCircle.position) {
-            StartCoroutine(MoveCandle(candlePos, topCircle.position));
+            if (currentEvent.options.Count >= 3) {
+                StartCoroutine(MoveCandle(candlePos, topCircle.position));
+                BadOmen(currentEvent.options[2].bad);
+            }
             return;
         }
         if (Input.GetButtonDown("Left") && candlePos != leftCircle.position) {
             StartCoroutine(MoveCandle(candlePos, leftCircle.position));
-            // let's say left is always a bad omen for now
-            BadOmen(true);
-            // once the event system is setup, it'll look something like this:
-            // BadOmen(currentEvent.options[0].bad);
+            BadOmen(currentEvent.options[0].bad);
             return;
         }
         if (Input.GetButtonDown("Right") && candlePos != rightCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
-            // let's say right is always a good omen for now
-            BadOmen(false);
+            BadOmen(currentEvent.options[1].bad);
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos == topCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
+            BadOmen(currentEvent.options[1].bad);
             return;
         }
     }
@@ -131,7 +175,7 @@ public class Player : MonoBehaviour
 
         // figure out where candle is going
         Transform source = toDivine ? hand : candle;
-        Transform destination = toDivine ? topCircle : hand;
+        Transform destination = toDivine ? rightCircle : hand;
 
         float timeElapsed = 0;
         while(timeElapsed < transitionDuration)
