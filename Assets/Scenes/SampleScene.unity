@@ -193,6 +193,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caad987a73d854a089652895665c3110, type: 3}
+--- !u!198 &342843237 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
+    type: 3}
+  m_PrefabInstance: {fileID: 813297139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &470328422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8001946255312947867, guid: 80f9c2f18d0cb453d8656c5a87d76c59,
@@ -353,8 +359,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
         type: 3}
+      propertyPath: ForceModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
+        type: 3}
       propertyPath: NoiseModule.enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
+        type: 3}
+      propertyPath: ForceModule.x.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
+        type: 3}
+      propertyPath: ForceModule.y.scalar
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
+        type: 3}
+      propertyPath: ForceModule.z.scalar
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3955375398146698610, guid: 7995daf802ce646f0b58635281a45901,
         type: 3}
@@ -1228,6 +1254,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 31726683724635759, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
+      propertyPath: m_Name
+      value: Fog
+      objectReference: {fileID: 0}
+    - target: {fileID: 31726683724635759, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1207143860817621931, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1328,6 +1364,11 @@ PrefabInstance:
       propertyPath: hand
       value: 
       objectReference: {fileID: 5610977293041543520}
+    - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
+      propertyPath: smoke
+      value: 
+      objectReference: {fileID: 342843237}
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
       propertyPath: candle

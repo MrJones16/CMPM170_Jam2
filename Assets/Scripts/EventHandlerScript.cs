@@ -23,13 +23,15 @@ public class EventHandlerScript : MonoBehaviour
                 "optionText",           //This is the text that the option will say
                 "optionTextAfterClick", //This will be what is said when the option is chosen
                 0.0f,                   //This is the change on the timer. Positive values add time, negative values subtract time.
-                1.0f                    //This is the value of how fast the candle will burn. 1 second is the default.
+                1.0f,                   //This is the value of how fast the candle will burn. 1 second is the default.
+                false
             ), // At this point you can add as many options as you want. In this example, I will add a second option
             new Option(
                 "optionText",           //Option Text
                 "optionTextAfterClick", //Text After choosing
                 0.0f,                   //Timer Change
-                1.0f                    //Candle Burn Rate
+                1.0f,                   //Candle Burn Rate
+                true
             )
         );
         //Here is what a more legitimate event would look like:
@@ -40,14 +42,16 @@ public class EventHandlerScript : MonoBehaviour
             new Option(
                 "Take the path with animal tracks",//Option Text
                 "I chose to follow the animal tracks, even though it could be dangerous", //Text After choosing
-                0f, //Timer change
-                2.0f //Candle Burn Rate (I doubled the burn rate to simulate the danger of the animal)
+                0f,   //Timer change
+                2.0f, //Candle Burn Rate (I doubled the burn rate to simulate the danger of the animal)
+                true
             ), 
             new Option(
                 "Take the shorter path",           //Option Text
                 "I chose to follow my gut with the shorter path, and found some wax on the side of the path", //Text After choosing
                 30.0f, //Timer Change (I added 30 seconds to the candle since they found wax)
-                1.0f   //Candle Burn Rate
+                1.0f,  //Candle Burn Rate
+                false
             )
         );
         
@@ -112,11 +116,13 @@ public struct Option{
     public string textAfterClick;
     public float timerChange;
     public float timerRate;
+    public bool bad;
 
-    public Option(string text, string textAfterClick, float timerChange, float timerRate){
+    public Option(string text, string textAfterClick, float timerChange, float timerRate, bool bad){
         this.text = text;
         this.textAfterClick = textAfterClick;
         this.timerChange = timerChange;
         this.timerRate = timerRate;
+        this.bad = bad;
     }
 }
