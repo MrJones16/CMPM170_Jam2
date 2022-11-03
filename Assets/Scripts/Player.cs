@@ -52,13 +52,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void RotateCandle() {
-        candle.localPosition = Vector3.forward; // Position the picked up object facing the same direction as the player
-        candle.localRotation = Quaternion.Euler(Vector3.forward); // Not exactly sure what this does but if I leave it out it becomes random
-        candle.Translate(0.5f,1.0f,0); // offset the position
-        candle.localRotation = Quaternion.Euler(90,0,90); // offset the rotation
-    }
-
     private void EventUpdate() {
         if (Input.GetButtonDown("Down")) {
             StartCoroutine(SetDivination(true));
