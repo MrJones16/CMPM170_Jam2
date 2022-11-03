@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -40,11 +41,18 @@ public class Player : MonoBehaviour
     private float sidewaysWalkDistance;
     [SerializeField]
     private float walkTurnAngle;
+    [SerializeField]
+    public int foodAmount;
+    [SerializeField]
+    private int progress = 20;
+    [SerializeField]
+    private int victoryCondition = 100;
 
     // states
     private bool eventing = true;
     private bool divining = false;
     private bool walking = false;
+    private bool companion = false;
 
     private Event currentEvent;
 
@@ -67,7 +75,7 @@ public class Player : MonoBehaviour
         if (currentEvent == null) {
             currentEvent = eventHandler.getRandomEvent();
             // set 2 or 3 circles depending on # of choices (later: and whether you have a companion)
-            circles.sprite = currentEvent.options.Count == 2 ? twoCircles : threeCircles;
+            circles.sprite = currentEvent.options.Count > 2 && companion ? threeCircles : twoCircles;
 
             // display event in console for now
             Debug.Log(currentEvent.name);
@@ -101,7 +109,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Up")) {
             StartCoroutine(Walk(true));
             // if option 2 exists, 
-            if (currentEvent.options.Count >= 3) {
+            if (currentEvent.options.Count > 2 && companion) {
                 // trigger option 2 of current event
                 currentEvent.chooseOption(2);
                 // then disable current event
@@ -260,5 +268,28 @@ public class Player : MonoBehaviour
         candle.position = destination;
 
         divining = true;
+    }
+    
+    public void ChangeFood(int sustenance) {
+        foodAmount += sustenance;
+        if (foodAmount <= 0) {
+            //should end game
+            Debug.Log("GameOver");
+        }
+    }
+
+    public void ChangeProgress(int progressChange) {
+        int progressUpdate = progress+progressChange;
+        // progress can't go below 0
+        progress = progressUpdate > 0 ? progressUpdate : 0;
+        // escape the forest
+        if (progress >= victoryCondition) {
+            //should end game in a victory
+            Debug.Log("Victory");
+        }
+    }
+
+    public void GainCompanion() {
+        companion = true;
     }
 }
