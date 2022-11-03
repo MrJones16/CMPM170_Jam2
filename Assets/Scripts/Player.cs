@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class Player : MonoBehaviour
     private float sidewaysWalkDistance;
     [SerializeField]
     private float walkTurnAngle;
+    [Header("Sustenance")]
+    [SerializeField]
+    public int foodAmount;
 
     // states
     private bool eventing = true;
@@ -260,5 +264,13 @@ public class Player : MonoBehaviour
         candle.position = destination;
 
         divining = true;
+    }
+    
+    public void ChangeFood(int sustenance) {
+        foodAmount += sustenance;
+        if (foodAmount <= 0) {
+            //should end game
+            Debug.Log("GameOver");
+        }
     }
 }
