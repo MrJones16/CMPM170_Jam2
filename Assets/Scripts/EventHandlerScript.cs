@@ -88,17 +88,20 @@ public class EventHandlerScript : MonoBehaviour
 }
 
 
-public class Event{
+public class Event
+{
     //Members
     public string name; // Name of the event
     public string description; // Description of the event (what the text will be)
     Countdown_Timer timer;
     public List<Option> options;
+    private AudioSource pindropSFX;
     public Event(string name, string description){
         this.name = name;
         this.description = description;
         options = new List<Option>();
         timer = GameObject.Find("Timer").GetComponent<Countdown_Timer>();
+        pindropSFX = GameObject.Find("PinDropSFX").GetComponent<AudioSource>();
     }
     //Adds an option to the event.
     public void addOption(Option option){
@@ -107,8 +110,12 @@ public class Event{
 
     //Choose an option to execute by passing in the option itself.
     public void chooseOption(Option option){
+        Debug.Log(option.textAfterClick);
         timer.Change_Time(option.timerChange);
         timer.Change_Tick_Rate(option.timerRate);
+        if (option.timerChange < 0){
+            pindropSFX.Play();
+        }
     }
 
     //choose an option to execute by passing in the option's index.
@@ -117,6 +124,9 @@ public class Event{
         Debug.Log(option.textAfterClick);
         timer.Change_Time(option.timerChange);
         timer.Change_Tick_Rate(option.timerRate);
+        if (option.timerChange < 0){
+            pindropSFX.Play();
+        }
     }
 }
 
