@@ -47,12 +47,22 @@ public class Player : MonoBehaviour
     private int progress = 20;
     [SerializeField]
     private int victoryCondition = 100;
+    [SerializeField]
+    private AudioSource music;
+    [SerializeField]
+    private AudioSource walkingSFX;
+    [SerializeField]
+    private AudioSource fireSFX;
+    [SerializeField]
+    private AudioSource cardSFX;
 
     // states
     private bool eventing = true;
     private bool divining = false;
     private bool walking = false;
     private bool companion = false;
+    private bool walkingSoundOn = false;
+
 
     private Event currentEvent;
 
@@ -67,6 +77,17 @@ public class Player : MonoBehaviour
             DivinationUpdate();
         } else if (walking) {
             WalkUpdate();
+        }
+        //Walking SFX
+        //I didn't use the walkupdate() function because it doesn't really work with playing an audio clip
+        //It would just repeatedly start the sound while walking
+        if (walking && !walkingSoundOn){
+            walkingSFX.Play();
+            walkingSoundOn = true;
+        }
+        if (!walking && walkingSoundOn){
+            walkingSFX.Stop();
+            walkingSoundOn = false;
         }
     }
 
@@ -84,6 +105,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Down")) {
             StartCoroutine(SetDivination(true));
+            fireSFX.Play();
             BadOmen(currentEvent.options[1].bad);
             return;
         }
@@ -94,6 +116,8 @@ public class Player : MonoBehaviour
             currentEvent.chooseOption(0);
             // then disable current event
             currentEvent = null;
+            //play cardSFX
+            cardSFX.Play();
             return;
         }
 
@@ -103,6 +127,8 @@ public class Player : MonoBehaviour
             currentEvent.chooseOption(1);
             // then disable current event
             currentEvent = null;
+            //play cardSFX
+            cardSFX.Play();
             return;
         }
 
@@ -114,6 +140,8 @@ public class Player : MonoBehaviour
                 currentEvent.chooseOption(2);
                 // then disable current event
                 currentEvent = null;
+                //play cardSFX
+                cardSFX.Play();
             }
             return;
         }
@@ -126,11 +154,13 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Up") && (currentEvent.options.Count < 3 || candlePos == topCircle.position)) {
             StartCoroutine(SetDivination(false));
             BadOmen(false);
+            fireSFX.Play();
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos != topCircle.position) {
             StartCoroutine(SetDivination(false));
             BadOmen(false);
+            fireSFX.Play();
             return;
         }
 
@@ -139,22 +169,26 @@ public class Player : MonoBehaviour
             if (currentEvent.options.Count >= 3) {
                 StartCoroutine(MoveCandle(candlePos, topCircle.position));
                 BadOmen(currentEvent.options[2].bad);
+                fireSFX.Play();
             }
             return;
         }
         if (Input.GetButtonDown("Left") && candlePos != leftCircle.position) {
             StartCoroutine(MoveCandle(candlePos, leftCircle.position));
             BadOmen(currentEvent.options[0].bad);
+            fireSFX.Play();
             return;
         }
         if (Input.GetButtonDown("Right") && candlePos != rightCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             BadOmen(currentEvent.options[1].bad);
+            fireSFX.Play();
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos == topCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             BadOmen(currentEvent.options[1].bad);
+            fireSFX.Play();
             return;
         }
     }
@@ -268,6 +302,7 @@ public class Player : MonoBehaviour
         candle.position = destination;
 
         divining = true;
+        
     }
     
     public void ChangeFood(int sustenance) {
