@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -36,6 +37,19 @@ public class Player : MonoBehaviour
     private Transform hand;
     [SerializeField]
     private GameObject cards;
+    [SerializeField]
+    private TextMeshProUGUI eventName;
+    [SerializeField]
+    private TextMeshProUGUI eventText;
+    [SerializeField]
+    private TextMeshProUGUI leftText;
+    [SerializeField]
+    private TextMeshProUGUI rightText;
+    [SerializeField]
+    private TextMeshProUGUI topText;
+    [SerializeField]
+    private GameObject upOption;
+    
 
     [Header("Settings")]
     [SerializeField]
@@ -73,6 +87,8 @@ public class Player : MonoBehaviour
     private bool walkingSoundOn = false;
     private bool starting = true;
 
+    private string hovering = "";
+
     private Event currentEvent;
 
     private void Start() {
@@ -106,54 +122,99 @@ public class Player : MonoBehaviour
         // get an event
         if (currentEvent == null) {
             currentEvent = eventHandler.getRandomEvent();
-            cards.SetActive(true);
-            // set 2 or 3 circles depending on # of choices (later: and whether you have a companion)
-            circles.sprite = currentEvent.options.Count > 2 && companion ? threeCircles : twoCircles;
+            // set 2 or 3 circles depending on # of choices and whether you have a companion
+            if (currentEvent.options.Count > 2 && companion) {
+                circles.sprite = threeCircles;
+                upOption.SetActive(true);
+            } else {
+                circles.sprite = twoCircles;
+                upOption.SetActive(false);
+            }
 
             // display event in console for now
             Debug.Log(currentEvent.name);
             Debug.Log(currentEvent.description);
+
+            eventName.text = currentEvent.name;
+            eventText.text = currentEvent.description;
+            leftText.text = currentEvent.options[0].text;
+            rightText.text = currentEvent.options[1].text;
+            topText.text = currentEvent.options[2].text;
+
+            hovering = "";
         }
+        cards.SetActive(true);
 
         if (Input.GetButtonDown("Down")) {
-            StartCoroutine(SetDivination(true));
-            fireSFX.Play();
-            BadOmen(currentEvent.options[1].bad);
+            if (hovering == "down") {
+                StartCoroutine(SetDivination(true));
+                fireSFX.Play();
+                BadOmen(currentEvent.options[1].bad);
+            } else {
+                //play cardSFX
+                cardSFX.Play();
+                hovering = "down";
+            }
             return;
         }
 
         if (Input.GetButtonDown("Left")) {
-            StartCoroutine(Walk(false));
-            // trigger option 0 of current event
-            currentEvent.chooseOption(0);
-            // then disable current event
-            currentEvent = null;
-            //play cardSFX
-            cardSFX.Play();
+            if (hovering == "left") {
+                StartCoroutine(Walk(false));
+                // show results
+                eventName.text = "Result";
+                eventText.text = currentEvent.options[0].textAfterClick;
+                // trigger option 0 of current event
+                currentEvent.chooseOption(0);
+                // then disable current event
+                currentEvent = null;
+            } else {
+                //play cardSFX
+                cardSFX.Play();
+                hovering = "left";
+            }
             return;
         }
 
         if (Input.GetButtonDown("Right")) {
-            StartCoroutine(Walk(true));
-            // trigger option 1 of current event
-            currentEvent.chooseOption(1);
-            // then disable current event
-            currentEvent = null;
-            //play cardSFX
-            cardSFX.Play();
+            if (hovering == "right") {
+                StartCoroutine(Walk(true));
+                // show results
+                eventName.text = "Result";
+                eventText.text = currentEvent.options[1].textAfterClick;
+                // trigger option 1 of current event
+                currentEvent.chooseOption(1);
+                // then disable current event
+                currentEvent = null;
+            } else {
+                //play cardSFX
+                cardSFX.Play();
+                hovering = "right";
+            }
             return;
         }
 
         if (Input.GetButtonDown("Up")) {
             // if option 2 exists, 
             if (currentEvent.options.Count > 2 && companion) {
-                StartCoroutine(Walk(true));
-                // trigger option 2 of current event
-                currentEvent.chooseOption(2);
-                // then disable current event
-                currentEvent = null;
+                if (hovering == "up") {
+                    StartCoroutine(Walk(true));
+                    // show results
+                    eventName.text = "Result";
+                    eventText.text = currentEvent.options[2].textAfterClick;
+                    // trigger option 2 of current event
+                    currentEvent.chooseOption(2);
+                    // then disable current event
+                    currentEvent = null;
+                } else {
+                    //play cardSFX
+                    cardSFX.Play();
+                    hovering = "up";
+                }
+            } else {
                 //play cardSFX
                 cardSFX.Play();
+                hovering = "";
             }
             return;
         }
@@ -161,6 +222,7 @@ public class Player : MonoBehaviour
 
     private void DivinationUpdate() {
         Vector3 candlePos = candle.position;
+        cards.SetActive(false);
         
         // ways to exit divination
         if (Input.GetButtonDown("Up") && (currentEvent.options.Count == 2 || candlePos == topCircle.position || !companion)) {
@@ -236,6 +298,7 @@ public class Player : MonoBehaviour
         // pause controls
         eventing = false;
         divining = false;
+        cards.SetActive(false);
 
         // figure out where candle is going
         Transform source = toDivine ? hand : candle;

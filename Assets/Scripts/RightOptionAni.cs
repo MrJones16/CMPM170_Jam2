@@ -5,22 +5,22 @@ using UnityEngine;
 public class RightOptionAni : MonoBehaviour
 {
     void Update() {
-    	if (Input.GetKeyDown(KeyCode.D)) {
+    	if (Input.GetButtonDown("Right")) {
     		// transform.LeanScale(Vector2.one, 1f);
     		transform.LeanMoveLocal(new Vector2(210, -30), 1).setEaseOutQuart();
     		// transform.localScale = Vector2.zero;
     		// transform.LeanScale(Vector2.zero, 1f).setEaseInBack();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.W)) {
+    	if (Input.GetButtonDown("Up")) {
     		transform.LeanMoveLocal(new Vector2(75, -30), 1).setEaseOutQuart();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.A)) {
+    	if (Input.GetButtonDown("Left")) {
     		transform.LeanMoveLocal(new Vector2(75, -30), 1).setEaseOutQuart();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.S)) {
+    	if (Input.GetButtonDown("Down")) {
     		transform.LeanMoveLocal(new Vector2(75, -30), 1).setEaseOutQuart();
     	}
     }

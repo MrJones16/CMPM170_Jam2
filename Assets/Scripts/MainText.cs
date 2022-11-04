@@ -14,12 +14,5 @@ public class MainText : MonoBehaviour
 	// 	mainText.GetComponent<Text>().text = "2";
 	// }
 
-	void Start() {
-		mainText = GetComponent<TextMeshProUGUI>();
-		mainTitle = "Hihihihihi";
-	}
-
-	void Update() {
-		mainText.text = mainTitle.ToString();
-	}
+	
 }

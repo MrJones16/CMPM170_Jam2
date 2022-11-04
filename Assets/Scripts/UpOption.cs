@@ -5,22 +5,22 @@ using UnityEngine;
 public class UpOption : MonoBehaviour
 {
     void Update() {
-    	if (Input.GetKeyDown(KeyCode.W)) {
+    	if (Input.GetButtonDown("Up")) {
     		// transform.LeanScale(Vector2.one, 1f);
-    		transform.LeanMoveLocal(new Vector2(0, 265), 1).setEaseOutQuart();
+    		transform.LeanMoveLocal(new Vector2(0, 275), 1).setEaseOutQuart();
     		// transform.localScale = Vector2.zero;
     		// transform.LeanScale(Vector2.zero, 1f).setEaseInBack();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.S)) {
+    	if (Input.GetButtonDown("Down")) {
     		transform.LeanMoveLocal(new Vector2(0, 75), 1).setEaseOutQuart();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.A)) {
+    	if (Input.GetButtonDown("Left")) {
     		transform.LeanMoveLocal(new Vector2(0, 75), 1).setEaseOutQuart();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.D)) {
+    	if (Input.GetButtonDown("Right")) {
     		transform.LeanMoveLocal(new Vector2(0, 75), 1).setEaseOutQuart();
     	}
     }

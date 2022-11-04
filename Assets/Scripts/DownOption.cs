@@ -5,7 +5,7 @@ using UnityEngine;
 public class DownOption : MonoBehaviour
 {
     void Update() {
-    	if (Input.GetKeyDown(KeyCode.S)) {
+    	if (Input.GetButtonDown("Down")) {
     		// transform.LeanScale(Vector2.one, 1f);
     		transform.LeanMoveLocal(new Vector2(0, -220), 1).setEaseOutQuart();
     		// transform.localScale = Vector2.zero;
@@ -13,15 +13,15 @@ public class DownOption : MonoBehaviour
             TextScript.score += 10;
     	}
 
-    	if (Input.GetKeyDown(KeyCode.W)) {
+    	if (Input.GetButtonDown("Up")) {
     		transform.LeanMoveLocal(new Vector2(0, -125), 1).setEaseOutQuart();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.A)) {
+    	if (Input.GetButtonDown("Left")) {
     		transform.LeanMoveLocal(new Vector2(0, -125), 1).setEaseOutQuart();
     	}
 
-    	if (Input.GetKeyDown(KeyCode.D)) {
+    	if (Input.GetButtonDown("Right")) {
     		transform.LeanMoveLocal(new Vector2(0, -125), 1).setEaseOutQuart();
     	}
     }
