@@ -12,6 +12,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private EventHandlerScript eventHandler;
     [SerializeField]
+    private Countdown_Timer timer;
+    [SerializeField]
+    private GameObject foodDisplayCanvas;
+    [SerializeField]
+    private GameObject titleDisplayCanvas;
+    [SerializeField]
     private SpriteRenderer circles;
     [SerializeField]
     private Sprite twoCircles;
@@ -57,12 +63,12 @@ public class Player : MonoBehaviour
     private AudioSource cardSFX;
 
     // states
-    private bool eventing = true;
+    private bool eventing = false;
     private bool divining = false;
     private bool walking = false;
     private bool companion = false;
     private bool walkingSoundOn = false;
-
+    private bool starting = true;
 
     private Event currentEvent;
 
@@ -71,7 +77,9 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        if (eventing) {
+        if (starting) {
+            StartUpdate();
+        } else if (eventing) {
             EventUpdate();
         } else if (divining) {
             DivinationUpdate();
@@ -190,6 +198,16 @@ public class Player : MonoBehaviour
             BadOmen(currentEvent.options[1].bad);
             fireSFX.Play();
             return;
+        }
+    }
+
+    private void StartUpdate() {
+        if (Input.GetButtonDown("Up") || Input.GetButtonDown("Right") || Input.GetButtonDown("Down") || Input.GetButtonDown("Left")) {
+            starting = false;
+            timer.Change_Tick_Rate(1f);
+            foodDisplayCanvas.SetActive(true);
+            titleDisplayCanvas.SetActive(false);
+            StartCoroutine(SetDivination(false));
         }
     }
 
