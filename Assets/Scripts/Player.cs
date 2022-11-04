@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject foodDisplayCanvas;
     [SerializeField]
+    private GameObject titleDisplayCanvas;
+    [SerializeField]
     private SpriteRenderer circles;
     [SerializeField]
     private Sprite twoCircles;
@@ -204,6 +206,7 @@ public class Player : MonoBehaviour
             starting = false;
             timer.Change_Tick_Rate(1f);
             foodDisplayCanvas.SetActive(true);
+            titleDisplayCanvas.SetActive(false);
             StartCoroutine(SetDivination(false));
         }
     }
