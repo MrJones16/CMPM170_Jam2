@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -327,6 +328,7 @@ public class Player : MonoBehaviour
         foodAmount += sustenance;
         if (foodAmount <= 0) {
             //should end game
+            SceneManager.LoadScene(1);
             Debug.Log("GameOver");
         }
     }
@@ -338,6 +340,7 @@ public class Player : MonoBehaviour
         // escape the forest
         if (progress >= victoryCondition) {
             //should end game in a victory
+            SceneManager.LoadScene(2);
             Debug.Log("Victory");
         }
     }

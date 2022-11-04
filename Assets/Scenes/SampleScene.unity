@@ -2210,6 +2210,11 @@ PrefabInstance:
       objectReference: {fileID: 1377681}
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
+      propertyPath: progress
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
+        type: 3}
       propertyPath: topCircle
       value: 
       objectReference: {fileID: 1352284469}
