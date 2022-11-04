@@ -133,9 +133,9 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Up")) {
-            StartCoroutine(Walk(true));
             // if option 2 exists, 
             if (currentEvent.options.Count > 2 && companion) {
+                StartCoroutine(Walk(true));
                 // trigger option 2 of current event
                 currentEvent.chooseOption(2);
                 // then disable current event
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
         Vector3 candlePos = candle.position;
         
         // ways to exit divination
-        if (Input.GetButtonDown("Up") && (currentEvent.options.Count < 3 || candlePos == topCircle.position)) {
+        if (Input.GetButtonDown("Up") && (currentEvent.options.Count == 2 || candlePos == topCircle.position || !companion)) {
             StartCoroutine(SetDivination(false));
             BadOmen(false);
             fireSFX.Play();
@@ -166,7 +166,7 @@ public class Player : MonoBehaviour
 
         // move the candle
         if (Input.GetButtonDown("Up") && candlePos != topCircle.position) {
-            if (currentEvent.options.Count >= 3) {
+            if (currentEvent.options.Count > 2 && companion) {
                 StartCoroutine(MoveCandle(candlePos, topCircle.position));
                 BadOmen(currentEvent.options[2].bad);
                 fireSFX.Play();
