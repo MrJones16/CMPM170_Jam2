@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     private Transform rightCircle;
     [SerializeField]
     private Transform hand;
+    [SerializeField]
+    private GameObject cards;
 
     [Header("Settings")]
     [SerializeField]
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
         // get an event
         if (currentEvent == null) {
             currentEvent = eventHandler.getRandomEvent();
+            cards.SetActive(true);
             // set 2 or 3 circles depending on # of choices (later: and whether you have a companion)
             circles.sprite = currentEvent.options.Count == 2 ? twoCircles : threeCircles;
 

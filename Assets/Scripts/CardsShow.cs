@@ -5,16 +5,18 @@ using UnityEngine;
 public class CardsShow : MonoBehaviour
 {
 
-	public GameObject obj;
-	public bool on = true;
+	public static GameObject obj;
+	public static bool on;
 
 	void Update () {
-		if (on == true){
-			obj.SetActive (true);
-		}
-		else {
-			obj.SetActive (false);
-		}
+
+
+		// if (on == true){
+		// 	obj.SetActive (true);
+		// }
+		// else {
+		// 	obj.SetActive (false);
+		// }
 
 		// if (Input.GetKeyDown(KeyCode.Alpha1)) {
 		// 	Debug.Log("1");

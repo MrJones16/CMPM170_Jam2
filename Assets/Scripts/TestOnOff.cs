@@ -6,20 +6,20 @@ public class OnOff : MonoBehaviour
 {
 
 	public GameObject obj;
-	public bool on = true;
+	// public bool on = true;
 
     void Update()
     {
 		if (Input.GetKeyDown(KeyCode.Alpha1)) {
-			Debug.Log("1");
-			on = true;
-			obj.SetActive (true);
+			CardsShow.on = true;
+			Debug.Log("1" + CardsShow.on);
+			// obj.SetActive (true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha2)) {
-			Debug.Log("2");
-			on = false;
-			obj.SetActive (false);
+			CardsShow.on = false;
+			Debug.Log("2" + CardsShow.on);
+			// obj.SetActive (false);
 		}
     }
 }
