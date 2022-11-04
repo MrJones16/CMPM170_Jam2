@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Countdown_Timer : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Countdown_Timer : MonoBehaviour
         Current_Time -= Tick_Rate * Time.deltaTime; //to make time go down
 
         if (Current_Time <= 0) {
+            SceneManager.LoadScene(1);
             Debug.Log("Game Over");
         }
     }
