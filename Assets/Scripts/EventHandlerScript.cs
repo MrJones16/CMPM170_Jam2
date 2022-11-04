@@ -11,6 +11,9 @@ public class EventHandlerScript : MonoBehaviour
     {
         //Initialize event list
         events = new List<Event>();
+        LoadEvents();
+    }
+    public void LoadEvents() {
         //EVENT LIST
         //(Here will be where we hard-code all events we want.)
         //
@@ -149,12 +152,11 @@ public class EventHandlerScript : MonoBehaviour
             ),
             new Option(
                 text: "Do not follow it, warned my companion. We must get out of here, quick as we can.",
-                textAfterClick: "As we left the crossing in a hurry, my companion told tales of a monster that weaponizes its own musk to draw in prey.",
+                textAfterClick: "As we left the crossing, my companion told tales of a monster that weaponizes its musk to draw in prey.",
                 timerChange: 30f,
                 progressChange: 10
             )
         );
-        
     }
     public void removeEvent(Event item){
         events.Remove(item);
@@ -162,10 +164,13 @@ public class EventHandlerScript : MonoBehaviour
     public Event getRandomEvent(){
         if (events.Count == 0){
             Debug.Log("There are no more events!");
+            LoadEvents();
             return null;
         }
-        return events[UnityEngine.Random.Range(0, events.Count)];
-        // later: remove the selected event from events list
+        Event chosen = events[UnityEngine.Random.Range(0, events.Count)];
+        // remove the selected event from events list
+        removeEvent(chosen);
+        return chosen;
     }
 
     //Function to add an event with a variable amount of options. 
