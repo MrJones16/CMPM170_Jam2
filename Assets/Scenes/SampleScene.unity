@@ -1819,7 +1819,7 @@ PrefabInstance:
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
       propertyPath: foodAmount
-      value: 200
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2988091781991713611, guid: ab32f8bb44d754da799f91e859cc6c6e,
         type: 3}
