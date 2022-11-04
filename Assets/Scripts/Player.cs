@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +12,12 @@ public class Player : MonoBehaviour
     private ParticleSystem smoke;
     [SerializeField]
     private EventHandlerScript eventHandler;
+    [SerializeField]
+    private Countdown_Timer timer;
+    [SerializeField]
+    private GameObject foodDisplayCanvas;
+    [SerializeField]
+    private GameObject titleDisplayCanvas;
     [SerializeField]
     private SpriteRenderer circles;
     [SerializeField]
@@ -42,11 +50,28 @@ public class Player : MonoBehaviour
     private float sidewaysWalkDistance;
     [SerializeField]
     private float walkTurnAngle;
+    [SerializeField]
+    public int foodAmount;
+    [SerializeField]
+    private int progress = 20;
+    [SerializeField]
+    private int victoryCondition = 100;
+    [SerializeField]
+    private AudioSource music;
+    [SerializeField]
+    private AudioSource walkingSFX;
+    [SerializeField]
+    private AudioSource fireSFX;
+    [SerializeField]
+    private AudioSource cardSFX;
 
     // states
-    private bool eventing = true;
+    private bool eventing = false;
     private bool divining = false;
     private bool walking = false;
+    private bool companion = false;
+    private bool walkingSoundOn = false;
+    private bool starting = true;
 
     private Event currentEvent;
 
@@ -55,12 +80,25 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
-        if (eventing) {
+        if (starting) {
+            StartUpdate();
+        } else if (eventing) {
             EventUpdate();
         } else if (divining) {
             DivinationUpdate();
         } else if (walking) {
             WalkUpdate();
+        }
+        //Walking SFX
+        //I didn't use the walkupdate() function because it doesn't really work with playing an audio clip
+        //It would just repeatedly start the sound while walking
+        if (walking && !walkingSoundOn){
+            walkingSFX.Play();
+            walkingSoundOn = true;
+        }
+        if (!walking && walkingSoundOn){
+            walkingSFX.Stop();
+            walkingSoundOn = false;
         }
     }
 
@@ -70,7 +108,7 @@ public class Player : MonoBehaviour
             currentEvent = eventHandler.getRandomEvent();
             cards.SetActive(true);
             // set 2 or 3 circles depending on # of choices (later: and whether you have a companion)
-            circles.sprite = currentEvent.options.Count == 2 ? twoCircles : threeCircles;
+            circles.sprite = currentEvent.options.Count > 2 && companion ? threeCircles : twoCircles;
 
             // display event in console for now
             Debug.Log(currentEvent.name);
@@ -79,6 +117,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Down")) {
             StartCoroutine(SetDivination(true));
+            fireSFX.Play();
             BadOmen(currentEvent.options[1].bad);
             return;
         }
@@ -89,6 +128,8 @@ public class Player : MonoBehaviour
             currentEvent.chooseOption(0);
             // then disable current event
             currentEvent = null;
+            //play cardSFX
+            cardSFX.Play();
             return;
         }
 
@@ -98,17 +139,21 @@ public class Player : MonoBehaviour
             currentEvent.chooseOption(1);
             // then disable current event
             currentEvent = null;
+            //play cardSFX
+            cardSFX.Play();
             return;
         }
 
         if (Input.GetButtonDown("Up")) {
-            StartCoroutine(Walk(true));
             // if option 2 exists, 
-            if (currentEvent.options.Count >= 3) {
+            if (currentEvent.options.Count > 2 && companion) {
+                StartCoroutine(Walk(true));
                 // trigger option 2 of current event
                 currentEvent.chooseOption(2);
                 // then disable current event
                 currentEvent = null;
+                //play cardSFX
+                cardSFX.Play();
             }
             return;
         }
@@ -118,39 +163,55 @@ public class Player : MonoBehaviour
         Vector3 candlePos = candle.position;
         
         // ways to exit divination
-        if (Input.GetButtonDown("Up") && (currentEvent.options.Count < 3 || candlePos == topCircle.position)) {
+        if (Input.GetButtonDown("Up") && (currentEvent.options.Count == 2 || candlePos == topCircle.position || !companion)) {
             StartCoroutine(SetDivination(false));
             BadOmen(false);
+            fireSFX.Play();
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos != topCircle.position) {
             StartCoroutine(SetDivination(false));
             BadOmen(false);
+            fireSFX.Play();
             return;
         }
 
         // move the candle
         if (Input.GetButtonDown("Up") && candlePos != topCircle.position) {
-            if (currentEvent.options.Count >= 3) {
+            if (currentEvent.options.Count > 2 && companion) {
                 StartCoroutine(MoveCandle(candlePos, topCircle.position));
                 BadOmen(currentEvent.options[2].bad);
+                fireSFX.Play();
             }
             return;
         }
         if (Input.GetButtonDown("Left") && candlePos != leftCircle.position) {
             StartCoroutine(MoveCandle(candlePos, leftCircle.position));
             BadOmen(currentEvent.options[0].bad);
+            fireSFX.Play();
             return;
         }
         if (Input.GetButtonDown("Right") && candlePos != rightCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             BadOmen(currentEvent.options[1].bad);
+            fireSFX.Play();
             return;
         }
         if (Input.GetButtonDown("Down") && candlePos == topCircle.position) {
             StartCoroutine(MoveCandle(candlePos, rightCircle.position));
             BadOmen(currentEvent.options[1].bad);
+            fireSFX.Play();
             return;
+        }
+    }
+
+    private void StartUpdate() {
+        if (Input.GetButtonDown("Up") || Input.GetButtonDown("Right") || Input.GetButtonDown("Down") || Input.GetButtonDown("Left")) {
+            starting = false;
+            timer.Change_Tick_Rate(1f);
+            foodDisplayCanvas.SetActive(true);
+            titleDisplayCanvas.SetActive(false);
+            StartCoroutine(SetDivination(false));
         }
     }
 
@@ -263,5 +324,31 @@ public class Player : MonoBehaviour
         candle.position = destination;
 
         divining = true;
+        
+    }
+    
+    public void ChangeFood(int sustenance) {
+        foodAmount += sustenance;
+        if (foodAmount <= 0) {
+            //should end game
+            SceneManager.LoadScene(1);
+            Debug.Log("GameOver");
+        }
+    }
+
+    public void ChangeProgress(int progressChange) {
+        int progressUpdate = progress+progressChange;
+        // progress can't go below 0
+        progress = progressUpdate > 0 ? progressUpdate : 0;
+        // escape the forest
+        if (progress >= victoryCondition) {
+            //should end game in a victory
+            SceneManager.LoadScene(2);
+            Debug.Log("Victory");
+        }
+    }
+
+    public void GainCompanion() {
+        companion = true;
     }
 }

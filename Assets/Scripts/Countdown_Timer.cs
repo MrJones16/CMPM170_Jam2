@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Countdown_Timer : MonoBehaviour
 {
     public float Start_Timer = 180f;
-    float Tick_Rate = 1f;
+    float Tick_Rate = 0f; // starts at 0 for the title screen
     public float Current_Time;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class Countdown_Timer : MonoBehaviour
         Current_Time -= Tick_Rate * Time.deltaTime; //to make time go down
 
         if (Current_Time <= 0) {
+            SceneManager.LoadScene(1);
             Debug.Log("Game Over");
         }
     }
