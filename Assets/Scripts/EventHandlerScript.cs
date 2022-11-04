@@ -129,6 +129,31 @@ public class EventHandlerScript : MonoBehaviour
                 progressChange: 10
             )
         );
+
+        addEvent(
+            new Event("The Smell of Home",
+                      "At one point, I came across a smell that reminded me of home. That awful place I'd left behind long ago."
+            ),
+            new Option(
+                text: "I had to follow it. It might even be food!",
+                textAfterClick: "I soon found out I'd been drawn in by the deceptive musk of a telepathic beast, lying in wait. I sprinted away as fast as I could.",
+                bad: true,
+                timerChange: -15f,
+                foodChange: -2,
+                progressChange: 5
+            ),
+            new Option(
+                text: "The reminder of time gone by repulsed me.",
+                textAfterClick: "I forged through the trees, away from that sickening smell. Tears welled up as the memory faded into the night.",
+                progressChange: 15
+            ),
+            new Option(
+                text: "Do not follow it, warned my companion. We must get out of here, quick as we can.",
+                textAfterClick: "As we left the crossing in a hurry, my companion told tales of a monster that weaponizes its own musk to draw in prey.",
+                timerChange: 30f,
+                progressChange: 10
+            )
+        );
         
     }
     public void removeEvent(Event item){
